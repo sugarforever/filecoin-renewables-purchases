@@ -13,7 +13,7 @@ xlsxSetFS(fs)
 
 // We'll do logging to fs
 let access = fs.createWriteStream(`./logs/csv-${(new Date()).toISOString()}.log`)
-process.stdout.write = process.stderr.write = access.write.bind(access)
+// process.stdout.write = process.stderr.write = access.write.bind(access)
 
 // Check for provided parameters
 const args = process.argv.slice(2)
@@ -565,6 +565,7 @@ switch (activities) {
         }
 
         // Create new file
+        console.log(`${purchaseOrderFolder}/${purchaseOrderFolderName}.csv`, purchaseOrderCsv)
         await fs.promises.writeFile(`${purchaseOrderFolder}/${purchaseOrderFolderName}.csv`, purchaseOrderCsv)
 
         break
