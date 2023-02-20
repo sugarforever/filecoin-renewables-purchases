@@ -565,7 +565,6 @@ switch (activities) {
         }
 
         // Create new file
-        console.log(`${purchaseOrderFolder}/${purchaseOrderFolderName}.csv`, purchaseOrderCsv)
         await fs.promises.writeFile(`${purchaseOrderFolder}/${purchaseOrderFolderName}.csv`, purchaseOrderCsv)
 
         break
