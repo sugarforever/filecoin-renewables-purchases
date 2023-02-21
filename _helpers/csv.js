@@ -558,14 +558,19 @@ switch (activities) {
 
         try {
             // Bakup existing file
-            await fs.promises.rename(`${purchaseOrderFolder}/${purchaseOrderFolderName}.csv`, `${purchaseOrderFolder}/${purchaseOrderFolderName}.bak-${(new Date()).toISOString()}.csv`)
+
+            // Comment out this line as in bacalhau context, files cannot be created in the purchase order folders as they
+            // are in the input volumes.
+            // await fs.promises.rename(`${purchaseOrderFolder}/${purchaseOrderFolderName}.csv`, `${purchaseOrderFolder}/${purchaseOrderFolderName}.bak-${(new Date()).toISOString()}.csv`)
         }
         catch (error) {
 //            console.log(error)
         }
 
         // Create new file
-        await fs.promises.writeFile(`${purchaseOrderFolder}/${purchaseOrderFolderName}.csv`, purchaseOrderCsv)
+        const outputDir = `./output_folder/${purchaseOrderFolderName}`
+        await fs.promises.mkdir(outputDir)
+        await fs.promises.writeFile(`${outputDir}/${purchaseOrderFolderName}.csv`, purchaseOrderCsv)
 
         break
     case 'create-grid-regions':
