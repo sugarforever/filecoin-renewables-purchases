@@ -1,4 +1,8 @@
-const resourcesMapping = {
+#!/usr/bin/env python3
+
+import os
+
+RESOURCES_MAPPING = {
     "20210831_EW_PL_transaction_1": "bafybeihdgmga7autjht4yrqagwxqq3tryfywtxjg2p5fsv2skod4dep2se",
     "20210831_delivery": "bafybeiaoccmknpq2eotlrolcm7pas4wcmq6vnytpczzi3ojbafvhvwccde",
     "20211115_3D_PL_transaction_1": "bafybeihspexn5zn5vhkdwmvyv3pts665rsbvq6acz7udtfvzegs4sqplli",
@@ -21,3 +25,13 @@ const resourcesMapping = {
     "REC_purchase_order": "bafybeih7g5blra7hhye2dtgeoxfbrhworceprgvdhoxgoq7jgmmpzvgtvu"
 }
 
+DOCKER_IMAGE = "wyang14/filecoin-renewables-purchases:0.0.6"
+ENTRYPOINT = "node /usr/src/app/csv.js create-purchase-order REC_purchase_order synthetic-country-state-province-locations-latest.json NERC_Regions.geojson 2020 2 1.5"
+OUTPUT_VOLUME = "filecoin_green_rec_outputs:/usr/src/app/filecoin_green_rec_outputs"
+
+inputs = []
+for key in RESOURCES_MAPPING:
+    inputs.append("-v {}:{}".format(RESOURCES_MAPPING[key], "/usr/src/app/" + key))
+
+cmd = "bacalhau docker run {} -o {} {} -- {}".format(" ".join(inputs), OUTPUT_VOLUME, DOCKER_IMAGE, ENTRYPOINT)
+os.system(cmd)
