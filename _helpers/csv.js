@@ -1983,7 +1983,7 @@ async function createStep3(transactionFolder, minersLocationsFile, priorityMiner
     let startingContracts = [], contracts = [], consumedContracts = []
     let gridMinersSplit = null
     try {
-        const minersLocationsFilePath = `./${transactionFolder}/_assets/${minersLocationsFile}`
+        const minersLocationsFilePath = getAssetPath(transactionFolder, minersLocationsFile)
         minersLocations = await fs.promises.readFile(minersLocationsFilePath, {
             encoding:'utf8',
             flag:'r'
@@ -1993,7 +1993,7 @@ async function createStep3(transactionFolder, minersLocationsFile, priorityMiner
         const priorityMinersFilesArr = priorityMinersFiles.split(",")
         for await (let priorityMinersFile of priorityMinersFilesArr) {
             priorityMinersFile = priorityMinersFile.trim()
-            const priorityMinersFilePath = `./${transactionFolder}/_assets/${priorityMinersFile}`
+            const priorityMinersFilePath = getAssetPath(transactionFolder, priorityMinersFile)
             const mnrs = await fs.promises.readFile(priorityMinersFilePath, {
                 encoding:'utf8',
                 flag:'r'
@@ -2034,7 +2034,7 @@ async function createStep3(transactionFolder, minersLocationsFile, priorityMiner
         }
         
         // Load grid miners split file
-        const gridMinersSplitPath = `./${transactionFolder}/_assets/${gridMinersSplitFile}`
+        const gridMinersSplitPath = getAssetPath(transactionFolder, gridMinersSplitFile)
         gridMinersSplit = await fs.promises.readFile(gridMinersSplitPath, {
             encoding:'utf8',
             flag:'r'
@@ -2805,7 +2805,7 @@ async function createStep5(transactionFolder, attestationFolder, network, networ
         // Get new beneficiaries worksheet
         newBeneficiariesWorkSheet = workbook.Sheets[beneficiariesSheetName]
 
-        const syntheticLocationsFilePath = `./${transactionFolder}/_assets/${minersLocationsFile}`
+        const syntheticLocationsFilePath = getAssetPath(transactionFolder, minersLocationsFile)
         syntheticLocations = await fs.promises.readFile(syntheticLocationsFilePath, {
             encoding:'utf8',
             flag:'r'
@@ -3138,7 +3138,7 @@ async function createPurchaseOrder(purchaseOrderFolder, minersLocationsFile, ner
         }
     }
 
-    const syntheticLocationsFilePath = `./${purchaseOrderFolder}/_assets/${minersLocationsFile}`
+    const syntheticLocationsFilePath = getAssetPath(purchaseOrderFolder, minersLocationsFile)
     let syntheticLocations = await fs.promises.readFile(syntheticLocationsFilePath, {
         encoding:'utf8',
         flag:'r'
@@ -3148,7 +3148,7 @@ async function createPurchaseOrder(purchaseOrderFolder, minersLocationsFile, ner
     let L = HL()    // headless leaflet
     let map = L.map(L.document.createElement('div'))
 
-    const nercGeoJsonFilePath = `./${purchaseOrderFolder}/_assets/${nercGeoJsonFile}`
+    const nercGeoJsonFilePath = getAssetPath(purchaseOrderFolder, nercGeoJsonFile)
     let nercGeoJson = await fs.promises.readFile(nercGeoJsonFilePath, {
         encoding:'utf8',
         flag:'r'
@@ -3159,7 +3159,7 @@ async function createPurchaseOrder(purchaseOrderFolder, minersLocationsFile, ner
 
     let nercRegionsMapping = {}
     if(nercRegionsMappingFile != undefined) {
-        const nercRegionsMappingFilePath = `./${assetsFolder}/_assets/${nercRegionsMappingFile}`
+        const nercRegionsMappingFilePath = getAssetPath(assetsFolder, nercRegionsMappingFile)
         nercRegionsMapping = await fs.promises.readFile(nercRegionsMappingFilePath, {
             encoding:'utf8',
             flag:'r'
@@ -3307,10 +3307,15 @@ async function createPurchaseOrder(purchaseOrderFolder, minersLocationsFile, ner
     })
 }
 
+async function getAssetPath(assetsFolder, assetFile) {
+    const path = `./${assetsFolder}/_assets/${assetFile}`
+    return fs.existsSync(path) ? path : `./${assetsFolder}/${assetFile}`
+}
+
 async function createGridRegions(assetsFolder, minersLocationsFile, nercGeoJsonFile, nercRegionsMappingFile) {
     let gridMiners = {}
 
-    const syntheticLocationsFilePath = `./${assetsFolder}/_assets/${minersLocationsFile}`
+    const syntheticLocationsFilePath = getAssetPath(assetsFolder, minersLocationsFile)
     let syntheticLocations = await fs.promises.readFile(syntheticLocationsFilePath, {
         encoding:'utf8',
         flag:'r'
@@ -3320,7 +3325,7 @@ async function createGridRegions(assetsFolder, minersLocationsFile, nercGeoJsonF
     let L = HL()    // headless leaflet
     let map = L.map(L.document.createElement('div'))
 
-    const nercGeoJsonFilePath = `./${assetsFolder}/_assets/${nercGeoJsonFile}`
+    const nercGeoJsonFilePath = getAssetPath(assetsFolder, nercGeoJsonFile)
     let nercGeoJson = await fs.promises.readFile(nercGeoJsonFilePath, {
         encoding:'utf8',
         flag:'r'
@@ -3331,7 +3336,7 @@ async function createGridRegions(assetsFolder, minersLocationsFile, nercGeoJsonF
 
     let nercRegionsMapping = {}
     if(nercRegionsMappingFile != undefined) {
-        const nercRegionsMappingFilePath = `./${assetsFolder}/_assets/${nercRegionsMappingFile}`
+        const nercRegionsMappingFilePath = getAssetPath(assetsFolder, nercRegionsMappingFile)
         nercRegionsMapping = await fs.promises.readFile(nercRegionsMappingFilePath, {
             encoding:'utf8',
             flag:'r'

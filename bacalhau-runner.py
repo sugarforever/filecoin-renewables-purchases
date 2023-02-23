@@ -34,4 +34,5 @@ for key in RESOURCES_MAPPING:
     inputs.append("-v {}:{}".format(RESOURCES_MAPPING[key], "/usr/src/app/" + key))
 
 cmd = "bacalhau docker run {} -o {} {} -- {}".format(" ".join(inputs), OUTPUT_VOLUME, DOCKER_IMAGE, ENTRYPOINT)
+print(cmd)
 os.system(cmd)
