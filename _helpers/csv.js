@@ -3307,7 +3307,7 @@ async function createPurchaseOrder(purchaseOrderFolder, minersLocationsFile, ner
     })
 }
 
-async function getAssetPath(assetsFolder, assetFile) {
+function getAssetPath(assetsFolder, assetFile) {
     const path = `./${assetsFolder}/_assets/${assetFile}`
     return fs.existsSync(path) ? path : `./${assetsFolder}/${assetFile}`
 }

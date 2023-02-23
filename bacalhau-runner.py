@@ -25,7 +25,7 @@ RESOURCES_MAPPING = {
     "REC_purchase_order": "bafybeih7g5blra7hhye2dtgeoxfbrhworceprgvdhoxgoq7jgmmpzvgtvu"
 }
 
-DOCKER_IMAGE = "wyang14/filecoin-renewables-purchases:0.0.6"
+DOCKER_IMAGE = "wyang14/filecoin-renewables-purchases:0.0.7"
 ENTRYPOINT = "node /usr/src/app/csv.js create-purchase-order REC_purchase_order synthetic-country-state-province-locations-latest.json NERC_Regions.geojson 2020 2 1.5"
 OUTPUT_VOLUME = "filecoin_green_rec_outputs:/usr/src/app/filecoin_green_rec_outputs"
 
